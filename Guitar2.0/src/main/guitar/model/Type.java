@@ -1,7 +1,7 @@
 package main.guitar.model;
 
 public enum Type {
-	  ACOUSTIC, ELECTRIC;
+	  ACOUSTIC, ELECTRIC,ANY;
 
 	  public String toString() {
 	    switch(this) {

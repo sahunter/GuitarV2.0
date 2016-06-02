@@ -16,6 +16,8 @@ public class Inventory {
               GuitarSpec spec) {
 Guitar guitar = new Guitar(serialNumber, price, spec);
 guitars.add(guitar);
+
+
 }
 
 public Guitar getGuitar(String serialNumber) {

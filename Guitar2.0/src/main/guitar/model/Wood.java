@@ -3,7 +3,7 @@ package main.guitar.model;
 public enum Wood {
 
 	  INDIAN_ROSEWOOD, BRAZILIAN_ROSEWOOD, MAHOGANY, MAPLE,
-	  COCOBOLO, CEDAR, ADIRONDACK, ALDER, SITKA;
+	  COCOBOLO, CEDAR, ADIRONDACK, ALDER, SITKA,ANY;
 
 	  public String toString() {
 	    switch(this) {

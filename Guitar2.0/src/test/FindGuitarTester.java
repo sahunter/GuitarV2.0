@@ -14,9 +14,11 @@ public class FindGuitarTester {
 	    // Set up Rick's guitar inventory
 	    Inventory inventory = new Inventory();
 	    initializeInventory(inventory);
+Builder a = Builder.FENDER;
+
 
 	    GuitarSpec whatErinLikes = 
-	      new GuitarSpec(Builder.FENDER, "Stratocastor", 
+	      new GuitarSpec(a, "Stratocastor", 
 	                     Type.ELECTRIC, 6, Wood.ALDER, Wood.ALDER);
 	    List matchingGuitars = inventory.search(whatErinLikes);
 	    if (!matchingGuitars.isEmpty()) {
@@ -37,8 +39,9 @@ public class FindGuitarTester {
 	  }
 
 	  private static void initializeInventory(Inventory inventory) {
+		  Builder a = Builder.FENDER;
 	    inventory.addGuitar("11277", 3999.95, 
-	      new GuitarSpec(Builder.COLLINGS, "CJ", Type.ACOUSTIC, 6,
+	      new GuitarSpec(a, "CJ", Type.ACOUSTIC, 6,
 	                     Wood.INDIAN_ROSEWOOD, Wood.SITKA));
 	    inventory.addGuitar("V95693", 1499.95, 
 	      new GuitarSpec(Builder.FENDER, "Stratocastor", Type.ELECTRIC, 6,

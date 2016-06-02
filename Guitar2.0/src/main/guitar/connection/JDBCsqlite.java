@@ -14,7 +14,7 @@ public class JDBCsqlite implements Serializable {
 	public JDBCsqlite(){
 		try {
 			Class.forName("org.sqlite.JDBC");
-			connection= DriverManager.getConnection("jdbc:sqlite:E:/sqlite/Guitar2.db");
+			connection= DriverManager.getConnection("jdbc:sqlite:E:/sqlite/Test1.db");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

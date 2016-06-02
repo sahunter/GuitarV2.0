@@ -13,6 +13,7 @@ import main.guitar.connection.JDBCsqlite;
 
 import main.guitar.IDAO.InventoryIDAO;
 import main.guitar.model.Builder;
+import main.guitar.model.CompareResult;
 import main.guitar.model.Guitar;
 import main.guitar.model.GuitarSpec;
 import main.guitar.model.Inventory;
@@ -20,27 +21,36 @@ import main.guitar.model.Type;
 import main.guitar.model.Wood;
 public class InventoryDAOImpl implements InventoryIDAO{
 	public Inventory getInventorys() throws Exception {
-		JDBCsqlite jdbc =  new JDBCsqlite();
-		Connection connection = jdbc.connection;
+		JDBCsqlite jdbcsqlite =  new JDBCsqlite();
+		Connection connection = jdbcsqlite.connection;
 		PreparedStatement stmt1=null;
+		Inventory inventory = new Inventory();
+	
 		SQLException ex=null;	
 			stmt1=connection.prepareStatement("SELECT * FROM Guitar");
 			ResultSet rs=stmt1.executeQuery();
 			
 			while (rs.next()) {
-				Inventory inventory = new Inventory();
-				inventory.addGuitar(rs.getString("serialNumble"),rs.getDouble("price"), 
-					      new GuitarSpec(Builder.valueOf(rs.getString("builder")),
+				
+				CompareResult compareResult=new CompareResult();
+				Builder builder1=compareResult.compareBuilder(rs.getString("builder"));
+				Type type1=compareResult.compareType(rs.getString("type"));
+				Wood backwood1=compareResult.compareWood(rs.getString("backWood"));
+				Wood topwood1=compareResult.compareWood(rs.getString("topWood"));
+			inventory.addGuitar(rs.getString("serialNumble"),rs.getDouble("price"), 
+					      new GuitarSpec(builder1,
 					    		  rs.getString("model"),
-					    		  Type.valueOf(rs.getString("type")),
+					    		  type1,
 					    		  rs.getInt("numStrings"),
-					    		  Wood.valueOf(rs.getString("backwood")),
-					    		  Wood.valueOf(rs.getString("topwood"))));
+					    		  backwood1,
+					    		  topwood1));
+			}if(rs != null){
+				rs.close();
 			}
 			
 			stmt1.close();
-			Inventory guitars = null;
-			return guitars;
+			connection.close();
+			return inventory;
 			
 	
 

@@ -20,6 +20,7 @@ import main.guitar.DAOImpl.InventoryDAOImpl;
 import main.guitar.IDAO.InventoryIDAO;
 import main.guitar.connection.*;
 import main.guitar.model.Builder;
+import main.guitar.model.CompareResult;
 import main.guitar.model.Guitar;
 import main.guitar.model.GuitarSpec;
 import main.guitar.model.Inventory;
@@ -61,26 +62,30 @@ public class SearchGuitar extends HttpServlet {
 		String  numStrings=request.getParameter("numStrings");
 		String  backwood=request.getParameter("backwood");
 		String  topwood=request.getParameter("topwood");
-	//	WebService webService = (WebService) getServletContext().getAttribute("webService");
-		
-		/*GuitarSpec whatErinLikes = 	new GuitarSpec(Builder.valueOf(builder), model, 
-			    Type.valueOf(type), Integer.parseInt(numStrings), Wood.valueOf(backwood), Wood.valueOf(topwood));*/
-		Builder buider1=Builder.valueOf(builder);
-		Type type1=Type.valueOf(type);
-		Wood backwood1=Wood.valueOf(backwood);
-		Wood topwood1=Wood.valueOf(topwood);
-		GuitarSpec whatErinLikes = 	new GuitarSpec(buider1, model, 
+		CompareResult compareResult=new CompareResult();
+		Builder builder1=compareResult.compareBuilder(builder);
+		Type type1=compareResult.compareType(type);
+		Wood backwood1=compareResult.compareWood(backwood);
+		Wood topwood1=compareResult.compareWood(topwood);
+		GuitarSpec whatErinLikes = 	new GuitarSpec(builder1, model, 
 				type1, Integer.parseInt(numStrings),backwood1,topwood1);
 	     InventoryIDAO inventoryIDAO=new InventoryDAOImpl();
-		 Inventory inventory1 = null;
+		Inventory inventory = new Inventory();
 		try {
-			inventory1 = inventoryIDAO.getInventorys();
+			inventory = inventoryIDAO.getInventorys();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    List matchingGuitars = inventory1.search(whatErinLikes);
-	    PrintWriter out=response.getWriter();
+	    List matchingGuitars = inventory.search(whatErinLikes);
+	// request.setAttribute("model", model);
+	//    request.setAttribute("numStrings", numStrings);
+	//    if(!matchingGuitars.isEmpty()){
+	    request.setAttribute("matchingGuitars", matchingGuitars);
+		request.getRequestDispatcher("/showguitar.jsp").forward(request,response);
+	//	}else{request.getRequestDispatcher("guitar3.jsp").forward(request, response);} 	
+	}}
+		 /*PrintWriter out=response.getWriter();
 	    if (!matchingGuitars.isEmpty()) {
 		      System.out.println("Erin, you might like these guitars:");
 		      for (Iterator i = matchingGuitars.iterator(); i.hasNext(); ) {
@@ -96,41 +101,7 @@ public class SearchGuitar extends HttpServlet {
 		    } else {
 		     out.println("Sorry, Erin, we have nothing for you.");
 		    }
-		  }
-	    
-	    
-	    
-	  /*  request.setAttribute("model", model);
-	    request.setAttribute("numStrings", numStrings);
-	    if(match.size()!=0){
-	    request.setAttribute("matchingGuitars", matchingGuitars);
-		request.getRequestDispatcher("/guitar.jsp").forward(request,response);	*/
-
-
-	/*private void initializeInventory(Inventory inventory) {
-		// TODO Auto-generated method stub
-		
-	}*/
-
-	/*private void initializeInventory() {
-		// TODO Auto-generated method stub
-		
-	}
-*/
-
-
-
-
-
-
-
-
-			
-		
-		
-
-
-}
+		  }*/
 	/*private static void initializeInventory(Inventory inventory) {
 		    inventory.addGuitar("11277", 3999.95, 
 		      new GuitarSpec(Builder.COLLINGS, "CJ", Type.ACOUSTIC, 6,
